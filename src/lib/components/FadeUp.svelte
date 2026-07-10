@@ -1,7 +1,7 @@
 <script lang="ts">
+	import { motion } from '@humanspeak/svelte-motion';
 	import { IsInViewport } from 'runed';
 	import type { Snippet } from 'svelte';
-	import { Motion } from 'svelte-motion';
 
 	let {
 		children,
@@ -16,13 +16,14 @@
 	});
 </script>
 
-<Motion
-	initial={{ opacity: 0, y: 40 }}
-	animate={inViewport.current ? { opacity: 1, y: 0 } : {}}
+<motion.div
+	initial={{ y: 40, opacity: 0 }}
+	animate={inViewport.current ? { y: 0, opacity: 1 } : {}}
 	transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
-	let:motion
+	class={className}
+	style="opacity: {inViewport.current ? '1' : '0'};"
 >
-	<div bind:this={elem} class={className} use:motion>
+	<div bind:this={elem}>
 		{@render children()}
 	</div>
-</Motion>
+</motion.div>

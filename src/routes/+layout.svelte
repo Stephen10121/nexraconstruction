@@ -1,10 +1,15 @@
 <script lang="ts">
 	import { ChevronRight, Menu, Phone, X } from '@lucide/svelte';
-	import { AnimatePresence, Motion } from 'svelte-motion';
 	import favicon from '$lib/assets/favicon.svg';
 	import logo from '$lib/assets/logo.png';
 	import { page } from '$app/stores';
 	import './layout.css';
+	import FadeUp from '$lib/components/FadeUp.svelte';
+	import FaqItem from '$lib/components/FaqItem.svelte';
+	import { FAQS } from '$lib/utils';
+	import { afterNavigate } from '$app/navigation';
+	import { browser } from '$app/env';
+	import { AnimatePresence, motion } from '@humanspeak/svelte-motion';
 
 	let { children } = $props();
 
@@ -20,6 +25,12 @@
 	let menuOpen = $state(false);
 	let scrolled = $state(false);
 	let location = $derived($page.url);
+
+	afterNavigate(() => {
+		if (browser) {
+			window.scrollTo({ top: 0, behavior: 'smooth' });
+		}
+	});
 </script>
 
 <svelte:head>
@@ -29,7 +40,7 @@
 <div class="min-h-screen flex flex-col">
 	<div class="py-2 px-4 text-center text-sm text-white font-medium hidden md:block bg-[#f68318]">
 		<span>Serving Clark County, WA — Call us today: </span>
-		<a href="tel:+13605550199" class="font-bold underline underline-offset-2"> (360) 555-0199 </a>
+		<a href="tel:+13602137927" class="font-bold underline underline-offset-2"> (360) 213-7927 </a>
 	</div>
 
 	<header
@@ -59,12 +70,12 @@
 
 			<div class="hidden lg:flex items-center gap-3">
 				<a
-					href="tel:+13605550199"
+					href="tel:+13602137927"
 					class="flex items-center gap-2 text-sm font-medium transition-colors"
 					style="color: #ffffff"
 				>
 					<Phone size={15} />
-					(360) 555-0199
+					(360) 213-7927
 				</a>
 				<a
 					href="/about"
@@ -84,60 +95,77 @@
 		</div>
 	</header>
 
-	<AnimatePresence show={menuOpen}>
-		<Motion
-			initial={{ opacity: 0, x: '100%' }}
-			animate={{ opacity: 1, x: 0 }}
-			exit={{ opacity: 0, x: '100%' }}
-			transition={{ duration: 0.3, ease: 'easeInOut' }}
-			let:motion
-		>
-			<div use:motion class="fixed inset-0 z-40 flex flex-col pt-24 bg-[#141c26]">
+	<AnimatePresence>
+		{#if menuOpen}
+			<motion.div
+				key="menuopen"
+				initial={{ opacity: 0, x: '100%' }}
+				animate={{ opacity: 1, x: 0 }}
+				exit={{ opacity: 0, x: '100%' }}
+				transition={{ duration: 0.3, ease: 'easeInOut' }}
+				class="fixed inset-0 z-40 flex flex-col pt-24 bg-[#141c26]"
+			>
 				<nav class="flex flex-col px-8 gap-2">
 					{#each NAV_LINKS as link, i (link.to)}
-						<Motion
+						<motion.div
 							initial={{ opacity: 0, x: 40 }}
 							animate={{ opacity: 1, x: 0 }}
 							transition={{
 								delay: i * 0.06,
 								duration: 0.3
 							}}
-							let:motion
 						>
-							<div use:motion>
-								<a
-									href={link.to}
-									class="block py-4 text-2xl font-bold text-white border-b border-white/10"
-									style="color: {location.pathname === link.to ? '#f68318' : ''};"
-								>
-									{link.label}
-								</a>
-							</div>
-						</Motion>
+							<a
+								href={link.to}
+								class="block py-4 text-2xl font-bold text-white border-b border-white/10"
+								style="color: {location.pathname === link.to ? '#f68318' : ''};"
+							>
+								{link.label}
+							</a>
+						</motion.div>
 					{/each}
-					<Motion
+					<motion.div
 						initial={{ opacity: 0, y: 20 }}
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ delay: 0.4 }}
-						let:motion
+						class="mt-8"
 					>
-						<div use:motion class="mt-8">
-							<a
-								href="tel:+13605550199"
-								class="flex items-center gap-2 py-4 text-xl font-bold"
-								style="color: #f68318"
-							>
-								<Phone size={20} /> (360) 555-0199
-							</a>
-						</div>
-					</Motion>
+						<a
+							href="tel:+13602137927"
+							class="flex items-center gap-2 py-4 text-xl font-bold"
+							style="color: #f68318"
+						>
+							<Phone size={20} /> (360) 213-7927
+						</a>
+					</motion.div>
 				</nav>
-			</div>
-		</Motion>
+			</motion.div>
+		{/if}
 	</AnimatePresence>
 
 	<main class="flex-1">
 		{@render children()}
+		<section style="background-color: #f9f9f9" class="py-24 px-6">
+			<div class="max-w-3xl mx-auto">
+				<FadeUp className="text-center mb-12">
+					<div class="flex items-center justify-center gap-2 mb-4">
+						<div class="h-px w-10" style="background-color: #f68318"></div>
+						<span class="text-sm font-semibold tracking-widest uppercase" style="color: #f68318"
+							>Common Questions</span
+						>
+						<div class="h-px w-10" style="background-color: #f68318"></div>
+					</div>
+					<h2 class="text-4xl font-black" style="color: #141c26">FAQs</h2>
+				</FadeUp>
+				<FadeUp>
+					<div class="bg-white p-8 border border-gray-100">
+						{#each FAQS as faq (faq.q)}
+							<FaqItem {faq} />
+						{/each}
+					</div>
+				</FadeUp>
+			</div>
+		</section>
 	</main>
 
 	<footer class="text-white bg-[#141c26]">
@@ -182,8 +210,8 @@
 				<ul class="space-y-3 text-white/60 text-sm">
 					<li>
 						📞{' '}
-						<a href="tel:+13605550199" class="hover:text-white transition-colors">
-							(360) 555-0199
+						<a href="tel:+13602137927" class="hover:text-white transition-colors">
+							(360) 213-7927
 						</a>
 					</li>
 					<li>

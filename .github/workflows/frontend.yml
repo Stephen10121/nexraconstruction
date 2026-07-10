@@ -1,0 +1,30 @@
+name: Docker Build Nexra App
+
+on:
+  push:
+    branches: [release]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check the code
+        uses: actions/checkout@v1
+      - name: Free Disk Space
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: false
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: true
+          swap-storage: true
+      - name: Build Docker Container And Push to Docker Hub
+        run: |
+          echo "${{ secrets.DOCKERPW }}" | docker login -u "stephen10121" --password-stdin
+          docker build --memory 4g -t stephen10121/nexra:1.${{ github.run_number }} .
+          docker tag stephen10121/nexra:1.${{ github.run_number }} stephen10121/nexra:prod
+          docker tag stephen10121/nexra:1.${{ github.run_number }} stephen10121/nexra:1.${{ github.run_number }}
+          docker image push stephen10121/nexra:prod
+          docker image push stephen10121/nexra:1.${{ github.run_number }}

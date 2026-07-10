@@ -1,6 +1,6 @@
 <script lang="ts">
+	import { animate } from '@humanspeak/svelte-motion';
 	import { IsInViewport, watch } from 'runed';
-	import { animate } from 'svelte-motion';
 
 	let { target, suffix = '' }: { target: number; suffix?: string } = $props();
 
