@@ -146,7 +146,7 @@
 				</p>
 				<div class="flex flex-wrap gap-4">
 					<a
-						href="/about"
+						href="/contact"
 						class="flex items-center gap-2 px-8 py-4 text-white font-bold text-sm tracking-wide transition-all duration-200 hover:brightness-110 bg-[#f68318]"
 					>
 						Get Free Estimate <ChevronRight size={16} />
@@ -464,7 +464,7 @@
 						Call (360) 213-7927
 					</a>
 					<a
-						href="/about"
+						href="/contact"
 						class="px-10 py-4 border border-white/40 text-white font-bold text-sm tracking-wide hover:border-white/80 transition-colors"
 					>
 						Request Online Estimate

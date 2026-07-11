@@ -44,11 +44,19 @@
 	</div>
 
 	<header
-		class="sticky top-0 z-50 transition-all duration-300 bg-[#141c26]"
+		class="sticky top-0 z-50 transition-all duration-300 bg-[#141c26] isolate"
 		style="box-shadow: {scrolled ? '0 2px 24px rgba(0,0,0,0.18)' : 'none'};"
 	>
 		<div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-			<a href="/" class="flex items-center gap-2 group">
+			<a
+				href="/"
+				class="flex items-center gap-2 group"
+				onclick={() => {
+					setTimeout(() => {
+						menuOpen = false;
+					}, 200);
+				}}
+			>
 				<img src={logo} alt="the company logo" class="h-10" />
 			</a>
 
@@ -78,7 +86,7 @@
 					(360) 213-7927
 				</a>
 				<a
-					href="/about"
+					href="/contact"
 					class="flex items-center gap-1 px-5 py-2.5 text-sm font-bold text-white transition-all duration-200 hover:brightness-110 bg-[#f68318]"
 				>
 					Free Estimate <ChevronRight size={14} />
@@ -95,7 +103,7 @@
 		</div>
 	</header>
 
-	<AnimatePresence>
+	<AnimatePresence mode="popLayout">
 		{#if menuOpen}
 			<motion.div
 				key="menuopen"
@@ -103,7 +111,7 @@
 				animate={{ opacity: 1, x: 0 }}
 				exit={{ opacity: 0, x: '100%' }}
 				transition={{ duration: 0.3, ease: 'easeInOut' }}
-				class="fixed inset-0 z-40 flex flex-col pt-24 bg-[#141c26]"
+				class="fixed inset-0 z-40 flex flex-col pt-24 bg-[#141c26] isolate"
 			>
 				<nav class="flex flex-col px-8 gap-2">
 					{#each NAV_LINKS as link, i (link.to)}
@@ -116,6 +124,11 @@
 							}}
 						>
 							<a
+								onclick={() => {
+									setTimeout(() => {
+										menuOpen = false;
+									}, 200);
+								}}
 								href={link.to}
 								class="block py-4 text-2xl font-bold text-white border-b border-white/10"
 								style="color: {location.pathname === link.to ? '#f68318' : ''};"

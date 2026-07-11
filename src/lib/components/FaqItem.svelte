@@ -6,7 +6,7 @@
 	let { faq }: { faq: { q: string; a: string } } = $props();
 </script>
 
-<div class="border-b border-gray-100">
+<div class="border-b border-gray-100 h-auto">
 	<button
 		class="w-full text-left flex items-center justify-between py-5 gap-4 group"
 		onclick={() => (open = !open)}
@@ -16,10 +16,10 @@
 			<ChevronDown size={18} style="color: #f68318; flex-shrink: 0" />
 		</motion.div>
 	</button>
-	<AnimatePresence>
+	<AnimatePresence mode="popLayout">
 		{#if open}
 			<motion.div
-				key={faq.q}
+				key="{faq.q}faq"
 				initial={{ height: 0, opacity: 0 }}
 				animate={{ height: 'auto', opacity: 1 }}
 				exit={{ height: 0, opacity: 0 }}

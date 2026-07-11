@@ -241,7 +241,7 @@
 									{/each}
 								</div>
 								<a
-									href="/about"
+									href="/contact"
 									class="inline-flex items-center gap-2 px-6 py-3 font-bold text-sm text-white hover:brightness-110 transition-all"
 									style="background-color: #f68318;"
 								>

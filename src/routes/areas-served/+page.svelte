@@ -150,7 +150,7 @@
 						<Phone size={15} /> Call Us
 					</a>
 					<a
-						href="/about"
+						href="/contact"
 						class="inline-flex items-center gap-2 px-6 py-3 font-bold text-sm hover:gap-4 transition-all"
 						style="color: #141c26;border: 2px solid #141c26"
 					>

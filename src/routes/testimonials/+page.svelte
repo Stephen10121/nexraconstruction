@@ -286,7 +286,7 @@
 				important home projects.
 			</p>
 			<a
-				href="/about"
+				href="/contact"
 				class="inline-flex items-center gap-2 px-10 py-4 font-bold text-sm text-white hover:brightness-110 transition-all"
 				style="background-color: #f68318"
 			>
